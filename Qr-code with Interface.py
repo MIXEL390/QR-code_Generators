@@ -115,6 +115,13 @@ class QRGeneratorApp(ctk.CTk):
         except Exception as e:
             messagebox.showerror("Error", f"Generation failed: {str(e)}")
 
+        try:
+            self.qr_image = img
+            self.show_preview(img)
+            self.save_qr()
+        except:
+            self.qr_image = None
+
     def show_preview(self, img):
         preview_img = img.resize((200, 200))
         self.tk_image = ImageTk.PhotoImage(preview_img)
@@ -131,6 +138,10 @@ class QRGeneratorApp(ctk.CTk):
                 ("All Files", "*.*")
             ]
         )
+
+        if not file_path:
+            return
+
         if file_path:
             self.qr_image.save(file_path)
             messagebox.showinfo("Congrats", f"QR-code saved as:\n{file_path}")
